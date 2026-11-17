@@ -136,6 +136,9 @@ def answer_question(
                 "document_id": item["document_id"],
                 "text": item["text"],
                 "review_score": (item.get("metadata") or {}).get("review_score"),
+                "cosine_distance": item.get("cosine_distance"),
+                "cosine_similarity": item.get("cosine_similarity"),
+                "metadata": item.get("metadata") or {},
             }
             for i, item in enumerate(results, start=1)
         ],

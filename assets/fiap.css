@@ -1,0 +1,371 @@
+:root { --fiap:#ed145b; --fiap-light:#ff4b86; --black:#050506; --panel:#101014; --line:#2c2c35; --muted:#9e9eac; }
+html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
+  background:#050506 !important; color:#f8f8fa; font-family:Inter,"Segoe UI",Arial,sans-serif;
+}
+[data-testid="stAppViewContainer"] {
+  background-image:radial-gradient(ellipse at 50% -25%,rgba(237,20,91,.17),transparent 55%),
+  linear-gradient(rgba(255,255,255,.010) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.010) 1px,transparent 1px) !important;
+  background-size:auto,46px 46px,46px 46px !important;
+}
+header[data-testid="stHeader"] {background:transparent!important;}
+#MainMenu,footer {visibility:hidden;}
+.block-container {max-width:1680px!important; padding:1.2rem 2.3rem 2rem!important;}
+[data-testid="stVerticalBlock"] {gap:.65rem;}
+.global-head {height:75px;display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0 0 16px;border-bottom:1px solid #2c2c35;padding-bottom:14px}
+.brandline {display:flex;align-items:center;gap:22px}
+.brandline svg {width:102px;height:32px}
+.brand-divider {width:1px;height:34px;background:#454550}
+.brandtitle {font-size:15px;font-weight:850;letter-spacing:.06em;color:white}
+.brandsub {font-size:10px;color:#aaaab3;letter-spacing:.17em;margin-top:5px}
+.edition {font-size:10px;letter-spacing:.11em;font-weight:800;color:#ffb0ca;border:1px solid #563044;background:#26131c;padding:8px 13px;border-radius:30px;white-space:nowrap}
+.edition-dot {display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--fiap);margin-right:6px;box-shadow:0 0 10px var(--fiap)}
+.eyebrow {color:var(--fiap-light);font-size:10px;letter-spacing:.20em;font-weight:900}
+.sidebar-heading {font-size:31px;line-height:1.11;letter-spacing:-.055em;font-weight:900;margin:15px 0 10px;color:white}
+.sidebar-heading span,.inspector-title span {color:var(--fiap-light)}
+.sidebar-description {font-size:12px;color:#a1a1ae;line-height:1.65;margin-bottom:26px}
+.small-heading {font-size:10px;font-weight:850;letter-spacing:.18em;color:#c1c1cb;margin:8px 0 12px}
+.settings-heading {margin-top:21px;border-top:1px solid #34343d;padding-top:22px}
+.st-key-controls,.st-key-inspector {
+  min-height:750px;background:linear-gradient(145deg,#15151b,#0c0c10);
+  border:1px solid #303039;border-radius:24px;padding:23px 19px;
+  box-shadow:0 14px 45px rgba(0,0,0,.18);
+}
+.st-key-controls [data-testid="stButton"] button {border:1px solid #393943!important;background:#1a1a22!important;color:#ededf1!important;text-align:left!important;justify-content:flex-start!important;font-size:12px!important;line-height:1.45!important;font-weight:500!important;white-space:normal!important;min-height:48px!important;border-radius:12px!important;padding:12px 13px!important;transition:.2s;}
+.st-key-controls [data-testid="stButton"] button:hover {background:#321a28!important;border-color:#b92d5e!important;}
+.st-key-controls [data-testid="stNumberInput"] input{background:#1c1c23;color:white;border-radius:10px;}
+.st-key-controls [data-testid="stWidgetLabel"] p,.st-key-controls [data-testid="stToggle"] p{font-size:12px;color:#d0d0d8;}
+.st-key-controls [data-testid="stNumberInput"] {margin-top:3px}
+.st-key-controls [data-testid="stButton"]:has(button[kind="secondary"]):last-child button {border-color:#50404a!important;}
+.sidebar-footer {margin-top:24px;padding-top:16px;border-top:1px solid #2f2f37;color:#8f8f9c;font-size:10px;line-height:1.75;}
+.db-count {display:block;color:white;font-size:25px;font-weight:900;letter-spacing:-.04em}
+.st-key-phone_shell {
+  width:100%;max-width:445px;margin:0 auto;min-height:760px;
+  border:9px solid #2a2a33;border-radius:48px;
+  padding:0 14px 17px;
+  background:#09090d;
+  box-shadow:0 30px 85px rgba(0,0,0,.55),0 0 0 1px #5a5a62,0 0 85px rgba(237,20,91,.12);
+  position:relative; overflow:hidden;
+}
+.st-key-phone_shell:before {content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:21px;border-radius:0 0 16px 16px;background:#2a2a33;z-index:1;}
+.st-key-phone_shell [data-testid="stVerticalBlock"] {gap:0!important;}
+.phone-status {height:39px;padding:15px 15px 3px;display:flex;justify-content:space-between;font-size:10px;font-weight:800;letter-spacing:.03em}
+.phone-head {display:flex;align-items:center;gap:11px;padding:14px 6px 17px;border-bottom:1px solid #2b2b34;}
+.phone-avatar {width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:23px;background:linear-gradient(145deg,#ed145b,#7c082e);font-weight:900;box-shadow:0 6px 21px rgba(237,20,91,.35)}
+.phone-title {font-size:15px;font-weight:800;letter-spacing:-.02em}
+.phone-sub {font-size:10px;color:#9fa0ab;margin-top:4px}
+.online-dot {color:#7dffb2;font-size:8px;margin-right:4px}
+.st-key-phone_chat {background:radial-gradient(ellipse at 70% 103%,rgba(237,20,91,.07),transparent 55%)!important;padding:12px 6px!important;margin:0!important;border:0!important;scrollbar-width:thin;scrollbar-color:#3e3e48 transparent;}
+.st-key-phone_chat [data-testid="stMarkdown"] {margin-bottom:0!important}
+.st-key-phone_chat [data-testid="stVerticalBlock"] {gap:0!important}
+.chat-welcome {padding:50px 22px 24px;text-align:center;color:#fff}
+.welcome-symbol {font-size:35px;color:#ed145b;margin-bottom:20px;filter:drop-shadow(0 0 20px #ba174f)}
+.welcome-title {font-size:19px;font-weight:850;line-height:1.3;letter-spacing:-.03em}
+.welcome-copy {color:#a9a9b5;font-size:12px;line-height:1.7;margin-top:12px}
+.welcome-tag {margin:20px auto 0;padding:9px 12px;background:#25141c;color:#f9a6c2;border:1px solid #583244;font-size:9px;font-weight:850;letter-spacing:.12em;border-radius:99px;display:inline-block}
+.user-row {display:flex;justify-content:flex-end;margin:15px 2px 22px}
+.user-bubble {background:#4c1830;border:1px solid #783350;color:#fff;border-radius:18px 18px 4px 18px;padding:12px 14px;font-size:13px;line-height:1.5;max-width:86%;overflow-wrap:anywhere}
+.assistant-row {display:flex;gap:9px;align-items:flex-start;margin:10px 3px 21px}
+.assistant-mark {color:#ed145b;font-size:22px;font-weight:900;line-height:1.2}
+.assistant-main {flex:1;min-width:0}
+.assistant-label {color:#ff90b5;font-size:10px;font-weight:900;letter-spacing:.13em;margin:5px 0 8px}
+.assistant-text {font-size:13px;line-height:1.7;color:#ececf0;overflow-wrap:anywhere}
+.assistant-meta {font-size:10px;color:#858591;margin-top:12px}
+.cite-ref {display:inline-block;color:#ff80aa;background:#311723;border:1px solid #663249;font-size:10px;font-weight:900;border-radius:7px;padding:1px 6px;white-space:nowrap}
+.st-key-phone_shell [data-testid="stChatInput"] {border-radius:20px!important;border:1px solid #673149!important;background:#151118!important;margin-top:9px!important;padding:3px!important;}
+.st-key-phone_shell [data-testid="stChatInput"] textarea {font-size:12px!important;color:white!important}
+.st-key-phone_shell [data-testid="stChatInput"] button {color:#ff6699!important}
+.st-key-inspector .inspector-title {font-size:26px;line-height:1.3;font-weight:900;letter-spacing:-.045em;margin-top:8px;color:white}
+.inspector-description {font-size:12px;color:#9e9eac;margin:6px 0 20px;line-height:1.6}
+.stats-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 20px}
+.stat-card {background:#1d1d25;border:1px solid #33333d;border-radius:13px;padding:13px 9px}
+.stat-value {color:#fff;font-size:20px;font-weight:900;letter-spacing:-.06em;white-space:nowrap}
+.stat-label {color:#9a9aa8;font-size:9px;margin-top:6px;letter-spacing:.1em;font-weight:900}
+.st-key-inspector [data-baseweb="tab-list"] {gap:8px}
+.st-key-inspector [data-baseweb="tab"] {font-size:11px;font-weight:900;letter-spacing:.07em}
+.st-key-inspector [data-baseweb="tab-highlight"] {background:#ed145b}
+.st-key-inspector details {border:1px solid #393944!important;background:#1a1a22!important;border-radius:13px!important;margin-top:8px;}
+.st-key-inspector details summary {font-size:12px;line-height:1.4;color:#fafafa}
+.st-key-inspector [data-testid="stMarkdown"] p {font-size:12px;line-height:1.65}
+.source-comment {background:#24232b;border-left:3px solid #ed145b;padding:13px;border-radius:9px;color:#e4e3eb;font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+.pipeline-step {display:flex;align-items:center;gap:11px;padding:11px 10px;border:1px solid #34343e;border-radius:11px;background:#1a1a21;font-size:12px;margin-bottom:8px;color:#dddde5}
+.pipeline-step span {display:grid;place-items:center;background:#341522;color:#ff76a4;border-radius:8px;padding:5px 8px;font-weight:900;font-size:10px}
+.inspector-empty {border:1px dashed #43434f;border-radius:18px;padding:40px 23px;text-align:center;color:#e6e6eb;font-size:13px;line-height:1.9}
+.inspector-empty span {color:#9797a4;font-size:12px;line-height:1.6}
+.empty-circle {font-size:30px;color:#ed145b;margin-bottom:15px}
+.page-footer {margin:22px 0 5px;text-align:center;letter-spacing:.09em;font-size:9px;color:#747480}
+@media(max-width:1130px){.block-container{padding:1rem!important}.st-key-controls,.st-key-inspector{padding:18px 13px}.brandtitle{font-size:12px}.st-key-phone_shell{min-height:690px}.st-key-phone_chat{height:450px!important}}
+@media(max-width:760px){.global-head{gap:8px}.edition{display:none}.brandline{gap:12px}.brandline svg{width:65px}.brand-divider{height:25px}.brandtitle{font-size:10px}.brandsub{font-size:8px}.st-key-controls,.st-key-inspector{min-height:0}.st-key-phone_shell{max-width:100%;border-width:5px;border-radius:30px}.st-key-phone_shell:before{width:85px;height:16px}.st-key-phone_chat{height:420px!important}}
+
+/* ==============================================================
+   Correção: proporção do simulador em monitores Full HD (16:9)
+   A largura visual do telefone não deve acompanhar a coluna.
+   402 x ~825 px ~= proporção 0.487 de smartphone, mantendo
+   a área de evidências e controles independentes do celular.
+   ============================================================== */
+/* Largura travada mesmo com zoom, escala Windows ou modo maximizado. */
+@media (min-width: 761px) {
+  .st-key-phone_shell {
+    box-sizing: border-box !important;
+    width: 402px !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-inline: auto !important;
+    flex-grow: 0 !important;
+  }
+}
+
+@media (min-width: 1500px) and (min-height: 900px) {
+  .st-key-phone_shell {
+    box-sizing: border-box !important;
+    width: 402px !important;
+    min-width: 0 !important;
+    max-width: 402px !important;
+    min-height: 825px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+  }
+  .st-key-phone_chat {
+    height: 590px !important;
+    max-height: 590px !important;
+    overflow-y: auto !important;
+  }
+}
+
+/* Desktops menores: o celular continua estreito e não vaza da coluna. */
+@media (min-width: 761px) and (max-width: 1499px) {
+  .st-key-phone_shell {
+    box-sizing: border-box !important;
+    width: 390px !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 720px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .st-key-phone_chat {
+    height: 485px !important;
+    max-height: 485px !important;
+    overflow-y: auto !important;
+  }
+}
+
+/* Tela alta porém estreita ou janela reduzida: altura adaptativa. */
+@media (min-width: 761px) and (max-height: 899px) {
+  .st-key-phone_shell {
+    min-height: 0 !important;
+  }
+  .st-key-phone_chat {
+    height: clamp(340px, calc(100dvh - 310px), 490px) !important;
+    max-height: clamp(340px, calc(100dvh - 310px), 490px) !important;
+  }
+}
+
+/* Na versão mobile, preservar largura total e retirar medidas de desktop. */
+@media (max-width: 760px) {
+  .st-key-phone_shell {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+  }
+  .st-key-phone_chat {
+    height: 420px !important;
+    max-height: 420px !important;
+  }
+}
+
+/* ============================================================
+   RAG Inspector — drill-down de fontes (Full HD e responsivo)
+   ============================================================ */
+.st-key-inspector {min-width:0;}
+.st-key-inspector [data-testid="stExpander"] {
+  min-width:0;
+}
+.st-key-inspector [data-testid="stExpander"] > details {
+  overflow:hidden;
+  background:#17171e!important;
+  border:1px solid #3a3a45!important;
+  border-radius:15px!important;
+  margin-top:10px!important;
+}
+.st-key-inspector [data-testid="stExpander"] summary {
+  background:#131319!important;
+  color:#f3f3f7!important;
+  font-size:12px!important;
+  letter-spacing:.005em;
+  line-height:1.45!important;
+  padding:14px 12px!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere;
+}
+.st-key-inspector [data-testid="stExpanderDetails"] {
+  padding:5px 13px 14px!important;
+  min-width:0;
+}
+.st-key-inspector [data-testid="stExpanderDetails"] [data-testid="stVerticalBlock"] {
+  gap:.25rem!important;
+}
+.source-detail {color:#f0f0f5;min-width:0;width:100%;font-size:12px;line-height:1.45;}
+.source-overline,.source-kpi-label,.source-info-label {
+  display:block;color:#9696a6;font-size:9px;font-weight:850;
+  letter-spacing:.095em;line-height:1.4;
+}
+.source-overline {margin:10px 0 8px;color:#ff80aa;}
+.source-quote {
+  margin:0 0 13px!important;padding:12px 13px!important;
+  border:1px solid #33323e!important;border-left:3px solid #ed145b!important;
+  border-radius:10px!important;background:#22212b!important;
+  color:#e8e7ee!important;font-size:12px!important;line-height:1.6!important;
+  font-weight:400!important;overflow-wrap:anywhere;white-space:pre-wrap;
+  min-width:0;
+}
+.source-kpi-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:10px;min-width:0;}
+.source-kpi {padding:13px 11px;background:#22212c;border:1px solid #35333f;border-radius:11px;min-width:0;}
+.source-kpi-label {min-height:26px;font-size:9px;}
+.source-kpi-value {font-size:22px;font-weight:850;letter-spacing:-.04em;margin-top:8px;color:#f2f0f7;font-variant-numeric:tabular-nums;}
+.source-kpi-highlight {color:#ff75a7;}
+.source-info-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;padding:4px 0 6px;margin-bottom:10px;min-width:0;}
+.source-info {min-width:0;border-bottom:1px solid #34343e;padding:10px 7px 12px 3px;}
+.source-info strong {display:block;font-size:11px;color:#e6e6ed;margin-top:7px;font-weight:650;overflow-wrap:anywhere;line-height:1.5;}
+.source-stars {display:block;color:#ffbd70;letter-spacing:1px;font-size:14px;margin-top:5px;white-space:nowrap;}
+.source-info .source-stars + strong {font-size:10px;color:#b6b5c2;margin-top:2px;}
+.source-chips {display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;min-width:0;}
+.source-chip {display:inline-flex;align-items:center;min-width:0;max-width:100%;padding:4px 7px;border-radius:7px;background:#372331;border:1px solid #654052;color:#ffd6e3;font-size:10px;overflow-wrap:anywhere;word-break:break-word;white-space:normal;}
+.source-empty {display:block;margin-top:7px;color:#9b9baa;font-size:11px;}
+.source-document {display:flex;align-items:center;justify-content:space-between;gap:9px;padding:11px 9px;background:#111116;border:1px solid #33333b;border-radius:10px;min-width:0;}
+.source-document .source-info-label {font-size:8px;flex:0 0 auto;}
+.source-document code {font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px;color:#c7c8d4;max-width:55%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;min-width:0;}
+.source-footnote {color:#9292a1;font-size:10px;line-height:1.55;margin:11px 2px 8px;}
+.st-key-inspector [data-testid="stPopover"] button,
+.st-key-inspector [data-testid="stPopoverButton"] button {font-size:11px!important;border-radius:9px!important;border-color:#3b3b47!important;color:#ceced8!important;background:#202029!important;}
+@media (max-width:1250px) {
+  .source-info-grid {grid-template-columns:1fr;}
+  .source-document {display:block;}
+  .source-document code {max-width:100%;margin-top:8px;}
+}
+@media (max-width:760px) {
+  .source-kpi-value {font-size:20px;}
+  .source-kpi-label {font-size:8px;}
+  .source-info-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+
+/* Legibilidade em 1920×1080 e escalas de interface do Windows */
+.source-detail {font-size:13px;}
+.source-overline,.source-kpi-label,.source-info-label {font-size:10px;}
+.source-quote {font-size:13px!important;}
+.source-info strong {font-size:12px;}
+.source-chip {font-size:11px;}
+.source-footnote {font-size:11px;}
+
+/* ========================================================================
+   v1.6 — Recuperação do celular a partir do último CSS que funcionou.
+   Mantemos deliberadamente o CSS do telefone do release v1.3; não aplicamos
+   height/max-height/overflow nem flex à shell do Streamlit.
+   Apenas os dois painéis laterais têm altura controlada e scroll interno.
+   ======================================================================== */
+
+/* Perguntas sugeridas pertencem ao corpo scrollável do chat. */
+.phone-suggestions-title {
+  color:#ff7ca8;
+  font-size:10px;
+  letter-spacing:.15em;
+  font-weight:900;
+  margin:7px 6px 12px;
+  padding-top:12px;
+  border-top:1px solid #31232b;
+}
+.st-key-phone_chat [data-testid="stButton"] button {
+  width:100%!important;
+  background:#1b1921!important;
+  border:1px solid #4d3340!important;
+  border-radius:12px!important;
+  color:#f0eaf0!important;
+  min-height:45px!important;
+  padding:10px 12px!important;
+  font-size:11px!important;
+  font-weight:500!important;
+  line-height:1.5!important;
+  text-align:left!important;
+  justify-content:flex-start!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+.st-key-phone_chat [data-testid="stButton"] button:hover {
+  background:#331b2a!important;
+  border-color:#ed145b!important;
+}
+.st-key-phone_chat .chat-welcome {padding:20px 14px 8px;}
+.st-key-phone_chat .welcome-symbol {margin-bottom:8px;}
+.st-key-phone_chat .welcome-tag {margin-top:12px;}
+
+/* Apenas a ESQUERDA e a DIREITA têm scroll próprio. A estrutura interna do
+   telefone NÃO é modificada. O cabeçalho da página não fica cortado. */
+@media (min-width:1200px) and (min-height:760px) {
+  :root { --fiap-side-h:min(825px, calc(100dvh - 170px)); }
+  .st-key-controls,
+  .st-key-inspector {
+    box-sizing:border-box!important;
+    height:var(--fiap-side-h)!important;
+    min-height:0!important;
+    max-height:var(--fiap-side-h)!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+    scrollbar-color:#593344 transparent;
+  }
+  .st-key-controls::-webkit-scrollbar,
+  .st-key-inspector::-webkit-scrollbar {width:6px;}
+  .st-key-controls::-webkit-scrollbar-thumb,
+  .st-key-inspector::-webkit-scrollbar-thumb {
+    border-radius:10px;
+    background:#593344;
+  }
+}
+
+@media (max-width:1199px), (max-height:759px) {
+  .st-key-controls,
+  .st-key-inspector {height:auto!important;max-height:none!important;min-height:0!important;}
+}
+
+/* v1.8 — Três perguntas completas; sem sobreposição com o título.
+   O título faz parte do mesmo st.markdown que o texto de boas-vindas;
+   assim o Streamlit contabiliza sua altura antes de renderizar os botões.
+   Não tocar na estrutura/altura do celular já estabilizado na v1.6. */
+.st-key-phone_chat .phone-suggestions-title {
+  display:block!important;
+  box-sizing:border-box!important;
+  min-height:42px!important;
+  margin:7px 6px 0!important;
+  padding:13px 0 11px!important;
+  line-height:18px!important;
+  text-align:left!important;
+  border-top:1px solid #31232b!important;
+  white-space:normal!important;
+}
+/* Separação física entre botões, sem margens que possam colapsar. */
+.st-key-phone_chat [data-testid="stButton"] {
+  box-sizing:border-box!important;
+  padding-top:7px!important;
+}
+.st-key-phone_chat [data-testid="stButton"] button {
+  min-height:52px!important;
+  padding:10px 12px!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+  font-weight:550!important;
+  text-align:left!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+.st-key-phone_chat [data-testid="stButton"] button p {
+  margin:0!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+  text-align:left!important;
+}

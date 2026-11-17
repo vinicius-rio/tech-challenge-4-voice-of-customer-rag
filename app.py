@@ -1,0 +1,327 @@
+"""Voice of Customer Intelligence | Interface conversacional FIAP.
+
+A partir da raiz do repositório: streamlit run app.py
+Usa o backend real de src.rag.answer_reviews; nenhuma resposta é simulada.
+"""
+
+from __future__ import annotations
+
+import html
+import os
+import re
+import sys
+import time
+from pathlib import Path
+from typing import Any
+
+import streamlit as st
+from dotenv import load_dotenv
+
+ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT))
+
+from src.rag.answer_reviews import answer_question  # noqa: E402
+from ui_inspector import metric_text, render_source_card, score_text  # noqa: E402
+from src.rag.search_reviews import (  # noqa: E402
+    COLLECTION,
+    DB_DIR,
+    EMBEDDING_MODEL,
+)
+
+st.set_page_config(
+    page_title="Voice of Customer Intelligence | FIAP",
+    page_icon="✦",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
+
+st.markdown(
+    f"<style>{(ROOT / 'assets' / 'fiap.css').read_text(encoding='utf-8')}</style>",
+    unsafe_allow_html=True,
+)
+
+load_dotenv(ROOT / ".env")
+
+# Três perguntas completas; exibidas integralmente dentro do celular.
+QUESTIONS = [
+    "Quais reclamações sobre atraso na entrega aparecem nas avaliações?",
+    "O que os clientes relatam sobre produtos quebrados?",
+    "Quais elogios aparecem nas experiências de compra?",
+]
+
+if "turns" not in st.session_state:
+    st.session_state.turns = []
+
+
+def escaped(value: Any) -> str:
+    return html.escape(str(value if value is not None else "—"), quote=True)
+
+
+def formatted_answer(answer: str) -> str:
+    """Conserva texto do LLM como dado e destaca apenas citações válidas em HTML."""
+    safe_text = escaped(answer)
+    safe_text = re.sub(
+        r"\[(\d+)\]",
+        r'<span class="cite-ref">[\1]</span>',
+        safe_text,
+    )
+    return safe_text.replace("\n", "<br>")
+
+
+@st.cache_data(ttl=180, show_spinner=False)
+def collection_size() -> int | None:
+    if not DB_DIR.is_dir():
+        return None
+    try:
+        import chromadb
+
+        client = chromadb.PersistentClient(path=str(DB_DIR))
+        return int(client.get_collection(name=COLLECTION).count())
+    except Exception:
+        return None
+
+
+def process_question(question: str) -> None:
+    question = question.strip()
+    if not question:
+        return
+    if len(question) > 1000:
+        st.session_state.last_error = "Use perguntas com até 1.000 caracteres."
+        return
+
+    top_k = int(st.session_state.get("ui_topk", 5))
+    delayed_only = bool(st.session_state.get("ui_delayed_only", False))
+    started = time.perf_counter()
+    try:
+        with st.spinner("Consultando avaliações e gerando resposta..."):
+            response = answer_question(
+                question=question,
+                top_k=top_k,
+                delayed_only=delayed_only,
+            )
+    except Exception as exc:
+        # Não exibimos rastreamentos completos nem valores de credenciais.
+        st.session_state.last_error = f"Não foi possível consultar o RAG: {exc}"
+        return
+
+    latency = time.perf_counter() - started
+    st.session_state.turns.append(
+        {
+            "question": question,
+            "answer": response.get("answer", ""),
+            "sources": response.get("sources") or [],
+            "model": response.get("model"),
+            "usage": response.get("usage"),
+            "top_k": top_k,
+            "delayed_only": delayed_only,
+            "latency_seconds": latency,
+        }
+    )
+    st.session_state.last_error = None
+
+
+LOGO = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 28" aria-label="FIAP"><path fill="#ed145b" d="M30.906.205h-2.68v27.301h2.68zM17.667 12.929H7.344v2.537h10.323zM0 27.506h2.671V2.742h20.421V.205H0zM89.786.1H73.742v27.3h2.68V2.636h13.22c4.808 0 7.675 2.264 7.675 6.062v.076c0 3.692-3.177 6.176-7.9 6.176H82.85v2.537h6.452c7.388 0 10.693-4.436 10.693-8.827v-.076C99.996 3.191 96.276.1 89.794.1zM53.631 0h-2.286L34.53 27.491h2.876l15.047-24.3 7.743 12.48h3.064zM62.813 19.872l4.739 7.62h2.988l-4.686-7.62z"/></svg>'''
+
+st.markdown(
+    f'''<div class="global-head">
+      <div class="brandline">{LOGO}<span class="brand-divider"></span>
+        <div><div class="brandtitle">VOICE OF CUSTOMER INTELLIGENCE</div>
+             <div class="brandsub">TECH CHALLENGE · FASE 4 · RAG</div></div></div>
+      <div class="edition"><span class="edition-dot"></span> SISTEMA CONECTADO AO RAG</div>
+    </div>''',
+    unsafe_allow_html=True,
+)
+
+left, center, right = st.columns([1.05, 1.60, 1.35], gap="large", vertical_alignment="top")
+
+with left:
+    with st.container(height=825, border=False, key="controls"):
+        st.markdown('<div class="eyebrow">EXPLORAÇÃO INTELIGENTE</div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="sidebar-heading">A voz do cliente,<br><span>em evidências.</span></div>',
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            '<p class="sidebar-description">Explore avaliações reais da Olist. '
+            'O assistente responde somente com base nos documentos recuperados.</p>',
+            unsafe_allow_html=True,
+        )
+        st.markdown('<div class="small-heading settings-heading">CONFIGURAÇÃO DA BUSCA</div>', unsafe_allow_html=True)
+        st.number_input(
+            "Quantidade de fontes (Top-K)",
+            min_value=1, max_value=20, value=5, step=1, key="ui_topk",
+        )
+        st.toggle(
+            "Apenas entregas com atraso confirmado",
+            value=False,
+            key="ui_delayed_only",
+            help="Restringe aos pedidos com delivery_delay_days > 0 no ChromaDB.",
+        )
+        if st.button("↺  Iniciar nova conversa", key="new_conversation", width="stretch"):
+            st.session_state.turns = []
+            st.session_state.last_error = None
+            st.rerun()
+
+        total = collection_size()
+        counter = f"{total:,}".replace(",", ".") if total is not None else "—"
+        st.markdown(
+            f'<div class="sidebar-footer"><span class="db-count">{counter}</span>'
+            '<span>avaliações indexadas no ChromaDB</span><br>'
+            '<span>Embedding: text-embedding-3-small</span></div>',
+            unsafe_allow_html=True,
+        )
+
+with center:
+    with st.container(key="phone_shell"):
+        st.markdown(
+            '''<div class="phone-status"><span>9:41</span><span>●●● ▰</span></div>
+               <div class="phone-head"><div class="phone-avatar">✦</div>
+                 <div><div class="phone-title">Inteligência FIAP</div>
+                      <div class="phone-sub"><span class="online-dot">●</span> Assistente de avaliações Olist</div></div>
+               </div>''',
+            unsafe_allow_html=True,
+        )
+        with st.container(height=535, border=False, key="phone_chat"):
+            if not st.session_state.turns:
+                st.markdown(
+                    '''<div class="chat-welcome"><div class="welcome-symbol">✦</div>
+                      <div class="welcome-title">Olá! Vamos descobrir o que os clientes dizem?</div>
+                      <div class="welcome-copy">Faça uma pergunta sobre as avaliações da Olist.
+                      Cada resposta será acompanhada pelas fontes usadas na análise.</div>
+                      <div class="welcome-tag">RAG · RESPOSTAS COM EVIDÊNCIAS</div></div>
+                      <div class="phone-suggestions-title">EXPERIMENTE UMA PERGUNTA</div>''',
+                    unsafe_allow_html=True,
+                )
+                for i, suggested_question in enumerate(QUESTIONS, 1):
+                    if st.button(
+                        f"{i:02d}  {suggested_question}",
+                        key=f"phone_suggested_{i}",
+                        width="stretch",
+                    ):
+                        process_question(suggested_question)
+                        st.rerun()
+            for turn in st.session_state.turns:
+                st.markdown(
+                    f'<div class="user-row"><div class="user-bubble">{escaped(turn["question"])}</div></div>',
+                    unsafe_allow_html=True,
+                )
+                cited = len(set(re.findall(r"\[(\d+)\]", turn["answer"])))
+                cite_label = f"{cited} referência(s) citada(s)" if cited else "Sem referências citadas"
+                st.markdown(
+                    '<div class="assistant-row"><div class="assistant-mark">✦</div><div class="assistant-main">'
+                    '<div class="assistant-label">INTELIGÊNCIA FIAP</div>'
+                    f'<div class="assistant-text">{formatted_answer(turn["answer"])}</div>'
+                    f'<div class="assistant-meta">{escaped(cite_label)} · '
+                    f'{len(turn["sources"])} documento(s) recuperado(s)</div>'
+                    '</div></div>',
+                    unsafe_allow_html=True,
+                )
+        typed_question = st.chat_input(
+            "Pergunte sobre a experiência dos clientes...",
+            key="voice_customer_prompt",
+            max_chars=1000,
+        )
+        if typed_question:
+            process_question(typed_question)
+            st.rerun()
+
+if st.session_state.get("last_error"):
+    st.error(st.session_state.last_error)
+
+with right:
+    with st.container(height=825, border=False, key="inspector"):
+        st.markdown(
+            '<div class="eyebrow">OBSERVABILIDADE & EVIDÊNCIAS</div>'
+            '<div class="inspector-title">RAG <span>Inspector</span></div>'
+            '<div class="inspector-description">Entenda o que a IA consultou '
+            'e como a resposta foi produzida.</div>',
+            unsafe_allow_html=True,
+        )
+
+        turns = st.session_state.turns
+        if turns:
+            selected_turn = st.selectbox(
+                "Interação analisada",
+                options=list(range(len(turns) - 1, -1, -1)),
+                format_func=lambda i: f"#{i + 1} · {turns[i]['question'][:42]}",
+                key="inspector_turn",
+            )
+            turn = turns[selected_turn]
+            sources = turn["sources"]
+            valid_sims = [s["cosine_similarity"] for s in sources if isinstance(s.get("cosine_similarity"), (float, int))]
+            best_sim = f"{max(valid_sims):.4f}" if valid_sims else "—"
+            st.markdown(
+                f'''<div class="stats-grid">
+                    <div class="stat-card"><div class="stat-value">{len(sources)}</div><div class="stat-label">FONTES</div></div>
+                    <div class="stat-card"><div class="stat-value">{best_sim}</div><div class="stat-label">SIM. MÁX.</div></div>
+                    <div class="stat-card"><div class="stat-value">{turn["top_k"]}</div><div class="stat-label">TOP-K</div></div>
+                </div>''',
+                unsafe_allow_html=True,
+            )
+            tab_sources, tab_exec = st.tabs(["FONTES", "EXECUÇÃO"])
+            with tab_sources:
+                if not sources:
+                    st.info("Nenhum documento foi recuperado nesta consulta.")
+                for i, source in enumerate(sources, 1):
+                    similarity = metric_text(source.get("cosine_similarity"))
+                    metadata = source.get("metadata") or {}
+                    score = source.get("review_score")
+                    if score is None:
+                        score = metadata.get("review_score")
+                    title = (
+                        f"Fonte {i:02d}  ·  Similaridade {similarity}"
+                        f"  ·  Nota {score_text(score)}"
+                    )
+                    with st.expander(title, expanded=i == 1):
+                        # O comentário, as categorias e o ID são escapados como HTML.
+                        # Tudo é renderizado em um único cartão responsivo.
+                        st.markdown(render_source_card(source), unsafe_allow_html=True)
+                        with st.popover("Ver / copiar ID completo", use_container_width=False):
+                            st.code(str(source.get("document_id") or ""), language=None, wrap_lines=True)
+                if sources and not valid_sims:
+                    st.info("Distâncias indisponíveis. Execute a extensão de telemetria descrita no README_UI.md.")
+                st.caption("Similaridade = 1 − distância de cosseno. Não é uma probabilidade de relevância.")
+            with tab_exec:
+                st.markdown('<div class="small-heading">PIPELINE EXECUTADO</div>', unsafe_allow_html=True)
+                for no, text in (
+                    ("01", "Embedding da pergunta · OpenAI"),
+                    ("02", "Busca semântica · ChromaDB"),
+                    ("03", "Contexto com avaliações e metadados"),
+                    ("04", "Geração de resposta · OpenAI"),
+                ):
+                    st.markdown(
+                        f'<div class="pipeline-step"><span>{no}</span>{escaped(text)}</div>',
+                        unsafe_allow_html=True,
+                    )
+                usage = turn.get("usage") or {}
+                st.markdown('<div class="small-heading settings-heading">TELEMETRIA DA CONSULTA</div>', unsafe_allow_html=True)
+                st.markdown(f"**Latência ponta a ponta:** `{turn['latency_seconds']:.2f} s`")
+                st.markdown(f"**Tokens de entrada (geração):** `{usage.get('input_tokens', 'N/D')}`")
+                st.markdown(f"**Tokens de saída (geração):** `{usage.get('output_tokens', 'N/D')}`")
+                st.markdown(f"**LLM:** `{turn.get('model') or 'N/D'}`")
+                st.markdown(f"**Embedding:** `{EMBEDDING_MODEL}`")
+                st.markdown(f"**Filtro de atraso:** `{'Ativo' if turn['delayed_only'] else 'Desativado'}`")
+                st.caption("Tokens informados correspondem apenas à geração de texto; a API de embeddings não está contabilizada aqui. A latência inclui recuperação e geração.")
+        else:
+            st.markdown(
+                '<div class="inspector-empty">'
+                '<div class="empty-circle">⌁</div>'
+                '<strong>Aguardando uma pergunta</strong><br>'
+                '<span>As avaliações recuperadas e os dados da execução aparecerão aqui após a primeira interação.</span>'
+                '</div>',
+                unsafe_allow_html=True,
+            )
+            st.markdown('<div class="small-heading settings-heading">PIPELINE DISPONÍVEL</div>', unsafe_allow_html=True)
+            for no, step in (
+                ("01", "Representação vetorial da pergunta"),
+                ("02", "Recuperação por similaridade"),
+                ("03", "Evidências e metadados"),
+                ("04", "Resposta fundamentada"),
+            ):
+                st.markdown(f'<div class="pipeline-step"><span>{no}</span>{escaped(step)}</div>', unsafe_allow_html=True)
+
+st.markdown(
+    '<div class="page-footer">FIAP · VOICE OF CUSTOMER INTELLIGENCE · '
+    'AVALIAÇÕES REAIS DA OLIST · PRECISION@K / RECALL@K / FAITHFULNESS: ETAPA FUTURA</div>',
+    unsafe_allow_html=True,
+)
