@@ -31,3 +31,7 @@ storage/
 # ==========================================
 logs/
 *.log
+
+# Cache e bytecode do Python
+__pycache__/
+*.py[cod]
