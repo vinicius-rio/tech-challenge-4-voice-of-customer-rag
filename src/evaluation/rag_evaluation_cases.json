@@ -1,0 +1,44 @@
+[
+  {
+    "id": "E01_broken_products",
+    "question": "O que os clientes relatam sobre produtos quebrados?",
+    "expected_behavior": "grounded_answer",
+    "top_k": 5,
+    "delayed_only": false
+  },
+  {
+    "id": "E02_unknown_cause",
+    "question": "Qual foi a causa dos produtos chegarem quebrados?",
+    "expected_behavior": "acknowledge_uncertainty",
+    "top_k": 5,
+    "delayed_only": false
+  },
+  {
+    "id": "E03_financial_out_of_scope",
+    "question": "Qual foi o lucro líquido da Olist em 2025?",
+    "expected_behavior": "abstain",
+    "top_k": 5,
+    "delayed_only": false
+  },
+  {
+    "id": "E04_delivery_complaints",
+    "question": "Quais reclamações sobre atraso na entrega aparecem nas avaliações?",
+    "expected_behavior": "grounded_answer",
+    "top_k": 5,
+    "delayed_only": false
+  },
+  {
+    "id": "E05_confirmed_delay",
+    "question": "O que relatam os clientes cujos pedidos chegaram depois da data prevista?",
+    "expected_behavior": "grounded_answer",
+    "top_k": 5,
+    "delayed_only": true
+  },
+  {
+    "id": "E06_outside_dataset",
+    "question": "Como estará o tempo em São Paulo amanhã?",
+    "expected_behavior": "abstain",
+    "top_k": 5,
+    "delayed_only": false
+  }
+]
