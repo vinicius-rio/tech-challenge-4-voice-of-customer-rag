@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505">
+<title>FIAP · Tech Challenge Fase 4 | Voice of Customer Intelligence</title>
+<style>
+:root{--fiap:#ed145b;--fiap2:#ff6294;--white:#f7f7f9;--ink:#050505;--muted:#a7a7b2;--line:rgba(255,255,255,.13);--panel:rgba(255,255,255,.045);--cyan:#70deee;--green:#8bf3ba;--yellow:#ffc979}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:var(--white);font-family:Inter,"Segoe UI",Arial,sans-serif}body{user-select:none}a{color:inherit}
+.stage{position:fixed;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 8% 20%,rgba(237,20,91,.12),transparent 38%),radial-gradient(circle at 87% 90%,rgba(237,20,91,.07),transparent 37%),#000}
+.deck{position:relative;width:1600px;height:900px;transform-origin:center;overflow:hidden;background:#050505;box-shadow:0 30px 110px rgba(0,0,0,.65)}
+.slide{position:absolute;inset:0;padding:0 82px;display:none;overflow:hidden;background:linear-gradient(120deg,rgba(255,255,255,.014),transparent 58%),#050505}.slide.active{display:block}.slide::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(to bottom,#000,transparent 90%)}.slide::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 110% 90%,rgba(237,20,91,.10),transparent 42%)}
+.brand{position:absolute;top:41px;left:82px;z-index:5;display:flex;align-items:center;gap:18px}.brand svg{width:112px;height:34px;fill:var(--fiap)}.brand-tag{border-left:1px solid rgba(255,255,255,.22);padding-left:18px;color:#bebec7;text-transform:uppercase;font-size:13px;letter-spacing:.19em;font-weight:700}
+.snum{position:absolute;top:47px;right:82px;color:#85858e;font-size:14px;letter-spacing:.17em;z-index:4}.foot{position:absolute;bottom:32px;left:82px;right:82px;display:flex;justify-content:space-between;align-items:center;gap:20px;color:#888891;font-size:13px;z-index:5}.foot b{color:#dedee2;font-weight:650}.content{position:absolute;top:136px;left:82px;right:82px;bottom:92px;z-index:2}.eyebrow{display:flex;align-items:center;gap:13px;color:var(--fiap);text-transform:uppercase;letter-spacing:.19em;font-size:15px;font-weight:900;margin-bottom:19px}.eyebrow:before{content:"";width:28px;height:3px;background:var(--fiap)}
+h1,h2,h3,p{margin:0}h1{font-size:85px;line-height:.96;letter-spacing:-.065em;font-weight:950}h2{font-size:63px;line-height:1.01;letter-spacing:-.052em;font-weight:950}h3{font-size:24px;line-height:1.17;letter-spacing:-.025em}.pink{color:var(--fiap)}.lead{font-size:23px;line-height:1.46;color:#c6c6cf}.muted{color:var(--muted)}.mono{font-family:"Cascadia Code","Consolas",monospace}
+.soft-card{border:1px solid var(--line);border-radius:23px;background:linear-gradient(150deg,rgba(255,255,255,.068),rgba(255,255,255,.018));box-shadow:inset 0 1px rgba(255,255,255,.035)}
+.pill{display:inline-flex;align-items:center;border:1px solid rgba(237,20,91,.38);border-radius:100px;padding:11px 16px;background:rgba(237,20,91,.095);font-size:13px;letter-spacing:.095em;text-transform:uppercase;color:#ffd5e4;font-weight:800}
+/* CAPA */.hero{display:flex;flex-direction:column;justify-content:center;height:100%;padding-bottom:15px;position:relative}.hero h1{max-width:1030px;z-index:2}.hero .lead{max-width:840px;margin-top:30px;z-index:2}.hero .eyebrow{margin-bottom:30px}.presenter{z-index:2;display:flex;align-items:center;gap:16px;margin-top:55px;color:#dfdfe4;font-size:18px}.avatar{display:grid;place-items:center;width:47px;height:47px;border-radius:50%;background:var(--fiap);font-size:20px;font-weight:950}.presenter small{color:#a6a6b2;font-size:13px;display:block;margin-top:3px}.orb{position:absolute;width:630px;height:630px;right:-85px;top:80px;border-radius:50%;background:radial-gradient(circle at 28% 28%,rgba(255,255,255,.93),rgba(255,255,255,.07) 7%,transparent 10%),radial-gradient(circle at 43% 43%,#f63a79,rgba(237,20,91,.80) 24%,rgba(237,20,91,.28) 48%,rgba(237,20,91,.02) 69%,transparent 71%);box-shadow:0 0 85px rgba(237,20,91,.25),inset -48px -48px 115px rgba(0,0,0,.72);opacity:.94}.orb:after{content:"";position:absolute;inset:77px;border-radius:50%;border:1px solid rgba(255,255,255,.21);box-shadow:0 0 0 38px rgba(255,255,255,.021),0 0 0 105px rgba(255,255,255,.014)}.orbit{position:absolute;width:850px;height:285px;right:-160px;top:285px;border:1px solid rgba(255,255,255,.24);border-radius:50%;transform:rotate(-21deg)}
+/* PROBLEMA */.split{display:grid;grid-template-columns:1.08fr .92fr;gap:48px;height:100%;align-items:center}.problem-list{display:grid;gap:14px;margin-top:28px}.problem-item{padding:17px 19px;border-radius:15px;border:1px solid rgba(255,255,255,.085);background:rgba(255,255,255,.025);display:flex;align-items:center;gap:16px}.problem-item .num{color:var(--fiap);font-size:23px;font-weight:900;min-width:39px}.problem-item strong{font-size:19px;display:block;margin-bottom:5px}.problem-item span{font-size:15px;color:var(--muted)}.question-card{padding:39px 36px;min-height:510px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}.question-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--fiap)}.question-card .quote{font-size:46px;font-weight:900;line-height:1.07;letter-spacing:-.04em;margin:24px 0 28px}.question-card .desc{font-size:20px;line-height:1.43;color:#c1c1c9}.question-card .quote-mark{position:absolute;right:22px;top:8px;color:rgba(237,20,91,.19);font-size:160px;font-family:Georgia,serif}
+/* BASE */.metric-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:32px}.metric{min-height:205px;padding:26px 28px;display:flex;flex-direction:column;justify-content:space-between}.metric .kicker{font-size:13px;text-transform:uppercase;letter-spacing:.13em;font-weight:900;color:#aeafba}.metric .value{font-size:69px;line-height:1;letter-spacing:-.075em;font-weight:950}.metric .sub{font-size:17px;color:#bdbdc6;line-height:1.3}.metric.emph{background:linear-gradient(130deg,#ed145b,#a30945);border-color:transparent}.metric.emph .kicker,.metric.emph .sub{color:#ffe5ee}.steps{margin-top:30px;display:grid;grid-template-columns:repeat(5,1fr);gap:11px}.step{min-height:120px;position:relative;padding:20px 20px;border:1px solid rgba(255,255,255,.11);border-radius:15px;background:rgba(255,255,255,.03)}.step b{display:block;color:#f5f5f7;font-size:18px;margin-bottom:9px}.step span{color:#aaaab6;font-size:14px;line-height:1.33;display:block}.step:not(:last-child):after{content:'›';position:absolute;right:-17px;top:37px;color:var(--fiap);font-size:29px;z-index:3;font-weight:900}
+/* ARQUITETURA */.arch-sub{color:#bbbcc5;font-size:22px;line-height:1.36;margin-top:14px}.arch-section{margin-top:26px}.arch-section-heading{display:flex;align-items:center;gap:13px;font-size:14px;color:var(--fiap);font-weight:950;letter-spacing:.13em;text-transform:uppercase;margin-bottom:10px}.arch-section-heading .bar{height:1px;flex:1;background:rgba(255,255,255,.12)}.arch-lane{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.arch-lane.online{grid-template-columns:repeat(5,1fr)}.arch-node{min-height:143px;padding:22px 20px;border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.035);position:relative}.arch-node:not(:last-child):after{content:'→';position:absolute;right:-19px;top:47px;z-index:4;color:var(--fiap);font-size:23px;font-weight:950}.arch-node .sn{color:var(--fiap);font-size:12px;letter-spacing:.11em;font-weight:900;margin-bottom:10px}.arch-node b{display:block;font-size:20px;margin-bottom:8px;line-height:1.12}.arch-node span{color:#acacb7;font-size:14px;line-height:1.28;display:block}.arch-node.highlight{border-color:rgba(237,20,91,.72);background:linear-gradient(145deg,rgba(237,20,91,.12),rgba(237,20,91,.025));box-shadow:0 0 34px rgba(237,20,91,.065)}.arch-foot{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:21px;padding:15px 19px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);border-radius:13px;font-size:15px;color:#bfc0ca}.arch-foot strong{color:white}
+/* EVIDENCIAS */.evidence-layout{display:grid;grid-template-columns:.92fr 1.08fr;gap:52px;height:100%;align-items:center}.trust-list{display:grid;gap:16px;margin-top:29px}.trust-row{display:flex;gap:17px;align-items:center;border-bottom:1px solid rgba(255,255,255,.11);padding-bottom:17px}.trust-row .id{height:43px;width:43px;display:grid;place-items:center;background:rgba(237,20,91,.13);border-radius:12px;color:var(--fiap);font-size:19px;font-weight:900;flex:none}.trust-row strong{display:block;font-size:19px;margin-bottom:5px}.trust-row span{color:#aeafb9;font-size:16px;line-height:1.3}.inspector{padding:27px;min-height:540px;position:relative}.inspector:after{content:"";position:absolute;left:20px;right:20px;top:66px;border-bottom:1px solid rgba(255,255,255,.1)}.inspector-head{display:flex;align-items:center;justify-content:space-between;font-size:15px;letter-spacing:.09em;text-transform:uppercase;font-weight:900;padding-bottom:21px}.inspector-head .lights{display:flex;gap:7px}.inspector-head .lights i{height:10px;width:10px;background:#3a3b42;border-radius:50%}.inspector-head .lights i:first-child{background:var(--fiap)}.evi-card{margin-top:22px;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:23px;background:linear-gradient(150deg,rgba(237,20,91,.082),rgba(255,255,255,.02))}.evi-row{display:flex;justify-content:space-between;align-items:center;gap:12px}.evi-label{font-size:17px;font-weight:850}.tag{font-size:12px;font-weight:850;color:#ffc1d6;padding:7px 11px;border-radius:100px;border:1px solid rgba(237,20,91,.35)}.skeleton{margin-top:18px;display:grid;gap:9px}.skeleton i{display:block;height:12px;border-radius:20px;background:linear-gradient(90deg,rgba(255,255,255,.15),rgba(255,255,255,.06))}.skeleton i:last-child{width:72%}.evi-metas{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}.evi-metas div{padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(255,255,255,.028)}.evi-metas small{display:block;color:#93949f;font-size:12px;margin-bottom:7px}.evi-metas b{font-size:15px;color:#f5f5f6}.note{font-size:12px;color:#80818e;margin-top:15px;text-align:right}
+/* TRANSICAO */.transition{position:relative;height:100%;display:flex;flex-direction:column;justify-content:center}.transition h2{font-size:85px;max-width:980px}.transition .lead{margin-top:25px;max-width:930px}.transition .time-big{position:absolute;right:30px;top:205px;font-size:160px;font-weight:950;letter-spacing:-.085em;color:rgba(237,20,91,.18)}.transition .bottomstrip{margin-top:53px;display:flex;gap:12px}.transition .bottomstrip span{border:1px solid rgba(255,255,255,.17);background:rgba(255,255,255,.038);border-radius:100px;padding:13px 20px;font-size:16px;color:#d0d0d8}
+/* EVALUACAO */.eval-row{display:grid;grid-template-columns:310px 310px 1fr;gap:20px;margin-top:36px}.eval-card{min-height:340px;padding:29px;position:relative}.eval-card .v{font-size:82px;font-weight:950;letter-spacing:-.07em;line-height:1;margin:22px 0 25px}.eval-card .lbl{color:#dedee4;font-size:19px;font-weight:750;line-height:1.3}.eval-card p{color:#aaaab5;font-size:15px;line-height:1.42;margin-top:10px}.eval-card .top{color:var(--fiap);font-size:14px;text-transform:uppercase;font-weight:950;letter-spacing:.13em}.eval-card.caution{background:linear-gradient(145deg,rgba(255,209,102,.06),rgba(255,255,255,.016))}.eval-card.caution .top{color:var(--yellow)}.eval-card ul{margin:18px 0 0;padding-left:20px;display:grid;gap:12px;color:#c3c3cd;font-size:17px;line-height:1.3}.eval-card ul li::marker{color:var(--yellow)}.takeaway{margin-top:25px;padding:21px 26px;border-left:5px solid var(--fiap);background:rgba(237,20,91,.07);border-radius:0 14px 14px 0;font-size:20px;color:#e2e2e7}
+/* ENCERRAMENTO */.final-layout{height:100%;display:flex;flex-direction:column;justify-content:center}.final-layout h2{font-size:79px;max-width:1330px}.value-row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:45px 0 38px}.value-card{padding:26px;border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:20px}.value-card .n{color:var(--fiap);font-size:14px;font-weight:900;letter-spacing:.16em;margin-bottom:28px}.value-card strong{font-size:25px;display:block;margin-bottom:12px}.value-card span{font-size:16px;color:#b4b4c0;line-height:1.35}.repository{font-size:16px;color:#b5b5be;display:flex;align-items:center;gap:13px}.repository .dash{height:2px;width:28px;background:var(--fiap)}
+/* NAV */.progress{position:fixed;left:0;bottom:0;height:4px;background:var(--fiap);box-shadow:0 0 18px rgba(237,20,91,.55);z-index:11000;width:12.5%;transition:width .25s}.hud{position:fixed;bottom:19px;right:22px;z-index:11000;display:flex;gap:5px;opacity:.18;transition:opacity .2s}.hud:hover,.hud:focus-within{opacity:1}.hud button{font:inherit;font-size:13px;color:#fff;background:#1c1b21;border:1px solid #49464f;border-radius:10px;padding:10px 13px;cursor:pointer}.speaker-panel{display:none;position:fixed;bottom:77px;right:22px;z-index:10004;width:620px;max-height:45vh;overflow:auto;padding:22px 24px;border:1px solid rgba(237,20,91,.55);background:rgba(12,11,16,.96);box-shadow:0 24px 60px rgba(0,0,0,.7);border-radius:18px;font-size:17px;line-height:1.52;color:#e0e0e7}.speaker-panel.open{display:block}.speaker-panel b,.speaker-panel strong{color:var(--fiap)}.speaker-notes{display:none}.help{display:none;position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:10010;place-items:center}.help.open{display:grid}.help-card{padding:38px;background:#121116;border:1px solid var(--line);border-radius:22px;max-width:580px;width:90%;font-size:18px}.help-card h3{font-size:28px;margin-bottom:24px}.help-card p{padding:10px 0;color:#c1c1c9}.help-card kbd{padding:3px 10px;background:#28262c;border-radius:7px;color:white}
+@media print{html,body{height:auto;overflow:visible;background:white}.stage{display:block;position:static;background:white}.deck{transform:none!important;overflow:visible;width:1600px;height:auto;box-shadow:none}.slide{display:block!important;position:relative;width:1600px;height:900px;break-after:page;print-color-adjust:exact;-webkit-print-color-adjust:exact}.hud,.progress,.speaker-panel,.help{display:none!important}}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><defs><symbol id="fiap-logo" viewBox="0 0 100 28"><path d="M30.906.205h-2.68v27.301h2.68zM17.667 12.929H7.344v2.537h10.323zM0 27.506h2.671V2.742h20.421V.205H0zM89.786.1H73.742v27.3h2.68V2.636h13.22c4.808 0 7.675 2.264 7.675 6.062v.076c0 3.692-3.177 6.176-7.9 6.176H82.85v2.537h6.452c7.388 0 10.693-4.436 10.693-8.827v-.076C99.996 3.191 96.276.1 89.794.1zM53.631 0h-2.286L34.53 27.491h2.876l15.047-24.3 7.743 12.48h3.064zM62.813 19.872l4.739 7.62h2.988l-4.686-7.62z"/></symbol></defs></svg>
+<div class="stage"><main class="deck" id="deck">
+
+<!-- 01: 00:00-00:20 -->
+<section class="slide active" data-title="Capa" data-time="00:00–00:20">
+  <div class="brand"><svg aria-label="FIAP"><use href="#fiap-logo"/></svg><div class="brand-tag">Tech Challenge • Fase 4</div></div><div class="snum">01 / 08</div>
+  <div class="content"><div class="hero"><div class="orb"></div><div class="orbit"></div>
+    <div class="eyebrow">Inteligência Artificial Generativa aplicada ao e-commerce</div>
+    <h1>Voice of Customer<br><span class="pink">Intelligence</span> com RAG</h1>
+    <p class="lead">Transformando avaliações reais de consumidores em respostas contextualizadas, fundamentadas e rastreáveis.</p>
+    <div class="presenter"><span class="avatar">V</span><div><strong>Vinicius Naziozeno Santoro do Rio</strong><small>FIAP Pós-Tech · AI Scientist · 2026</small></div></div>
+  </div></div>
+  <div class="foot"><span>Da voz do cliente à evidência</span><span><b>ABERTURA</b> · 20 segundos</span></div>
+  <div class="speaker-notes"><strong>00:00–00:20 · Abertura</strong><p>Olá! Nesta quarta fase do Tech Challenge, desenvolvi o Voice of Customer Intelligence, uma solução de inteligência artificial generativa com RAG. A proposta é transformar avaliações reais de consumidores em respostas úteis, mas principalmente fundamentadas em evidências que podem ser verificadas.</p></div>
+</section>
+
+<!-- 02: 00:20-00:55 -->
+<section class="slide" data-title="Problema de negócio" data-time="00:20–00:55">
+  <div class="brand"><svg><use href="#fiap-logo"/></svg><div class="brand-tag">Problema de negócio</div></div><div class="snum">02 / 08</div>
+  <div class="content"><div class="split"><div>
+    <div class="eyebrow">O desafio</div><h2>Milhares de opiniões.<br><span class="pink">Pouca clareza</span> sobre os motivos.</h2>
+    <div class="problem-list">
+      <div class="problem-item"><div class="num">01</div><div><strong>Notas não contam toda a história</strong><span>O motivo da satisfação costuma estar no texto.</span></div></div>
+      <div class="problem-item"><div class="num">02</div><div><strong>Leitura manual não escala</strong><span>Reclamações e elogios ficam dispersos em milhares de registros.</span></div></div>
+      <div class="problem-item"><div class="num">03</div><div><strong>Insight precisa de lastro</strong><span>Uma conclusão deve apontar quais comentários a sustentam.</span></div></div>
+    </div></div>
+    <div class="soft-card question-card"><div class="quote-mark">“</div><div class="eyebrow">Pergunta de negócio</div><div class="quote">O que os clientes realmente relatam sobre os <span class="pink">atrasos na entrega</span>?</div><p class="desc">Queremos consultar a experiência do consumidor sem perder acesso aos relatos originais.</p></div>
+  </div></div><div class="foot"><span>Valor: reduzir o esforço de investigação de feedbacks</span><span><b>CONTEXTO</b> · 35 segundos</span></div>
+  <div class="speaker-notes"><strong>00:20–00:55 · Problema</strong><p>Em um e-commerce, uma nota baixa mostra a insatisfação, mas não explica sozinha a causa. Os motivos estão em milhares de comentários: entrega, qualidade do produto ou atendimento. A leitura manual é demorada e difícil de escalar. Por isso, o problema que buscamos resolver não é apenas resumir avaliações: é permitir que gestores façam perguntas em linguagem natural e consigam verificar exatamente quais relatos sustentam cada conclusão.</p></div>
+</section>
+
+<!-- 03: 00:55-01:35 -->
+<section class="slide" data-title="Base de conhecimento" data-time="00:55–01:35">
+  <div class="brand"><svg><use href="#fiap-logo"/></svg><div class="brand-tag">Base de conhecimento</div></div><div class="snum">03 / 08</div>
+  <div class="content">
+    <div class="eyebrow">Dados Olist · Brazilian E-Commerce Public Dataset</div>
+    <h2>De avaliações dispersas a <span class="pink">documentos pesquisáveis</span>.</h2>
+    <div class="metric-row">
+      <div class="soft-card metric"><div class="kicker">Avaliações analisadas</div><div class="value">99.224</div><div class="sub">Registros de avaliações da base</div></div>
+      <div class="soft-card metric emph"><div class="kicker">Documentos textuais</div><div class="value">42.687</div><div class="sub">Comentários preparados e indexados</div></div>
+      <div class="soft-card metric"><div class="kicker">Representação vetorial</div><div class="value">1.536</div><div class="sub">Dimensões por embedding</div></div>
+    </div>
+    <div class="steps">
+      <div class="step"><b>01 · Seleção</b><span>Avaliações com comentário textual</span></div>
+      <div class="step"><b>02 · Limpeza</b><span>Tratamento e organização do texto</span></div>
+      <div class="step"><b>03 · Enriquecimento</b><span>Nota, categoria, pedido e entrega</span></div>
+      <div class="step"><b>04 · Documentos</b><span>Texto + ID estável + metadados</span></div>
+      <div class="step"><b>05 · Indexação</b><span>Embeddings na base ChromaDB</span></div>
+    </div>
+  </div><div class="foot"><span>Fonte: Olist · E-commerce brasileiro, 2016–2018</span><span><b>PREPARAÇÃO</b> · 40 segundos</span></div>
+  <div class="speaker-notes"><strong>00:55–01:35 · Base de conhecimento</strong><p>Utilizei o dataset público da Olist, com 99.224 registros de avaliações. Depois de selecionar os comentários textuais e preparar os documentos, chegamos a 42.687 avaliações indexáveis. Cada documento mantém seu texto e um identificador estável, além de metadados como nota, categoria do produto, status e informações de entrega. Para a representação semântica, utilizei o modelo text-embedding-3-small, que produz vetores de 1.536 dimensões, armazenados localmente no ChromaDB.</p></div>
+</section>
+
+<!-- 04: 01:35-02:25 -->
+<section class="slide" data-title="Arquitetura RAG" data-time="01:35–02:25">
+  <div class="brand"><svg><use href="#fiap-logo"/></svg><div class="brand-tag">Arquitetura RAG</div></div><div class="snum">04 / 08</div>
+  <div class="content">
+    <div class="eyebrow">Recuperar primeiro · Gerar depois</div>
+    <h2>Uma arquitetura de ponta a ponta,<br><span class="pink">com evidências no centro</span>.</h2>
+    <div class="arch-section"><div class="arch-section-heading">01 / Preparação e indexação (offline)<span class="bar"></span></div>
+      <div class="arch-lane">
+        <div class="arch-node"><div class="sn">ORIGEM</div><b>Olist · CSVs</b><span>Avaliações, pedidos, itens e produtos</span></div>
+        <div class="arch-node"><div class="sn">TRATAMENTO</div><b>Documentos JSONL</b><span>Texto, IDs e metadados de contexto</span></div>
+        <div class="arch-node"><div class="sn">EMBEDDINGS</div><b>text-embedding-3-small</b><span>Representação semântica · 1.536D</span></div>
+        <div class="arch-node highlight"><div class="sn">ÍNDICE VETORIAL</div><b>ChromaDB</b><span>42.687 avaliações persistidas localmente</span></div>
+      </div>
+    </div>
+    <div class="arch-section"><div class="arch-section-heading">02 / Pergunta e resposta (online)<span class="bar"></span></div>
+      <div class="arch-lane online">
+        <div class="arch-node"><div class="sn">INPUT</div><b>Pergunta</b><span>Linguagem natural no Streamlit</span></div>
+        <div class="arch-node"><div class="sn">BUSCA</div><b>Embedding</b><span>Consulta no mesmo espaço vetorial</span></div>
+        <div class="arch-node highlight"><div class="sn">RETRIEVAL</div><b>Top-K + cosseno</b><span>Recuperação e filtros de metadados</span></div>
+        <div class="arch-node"><div class="sn">CONTEXT ENGINEERING</div><b>Fontes numeradas</b><span>Comentários e metadados no prompt</span></div>
+        <div class="arch-node"><div class="sn">GENERATION</div><b>gpt-4.1-mini</b><span>Resposta fundamentada com citações</span></div>
+      </div>
+    </div>
+    <div class="arch-foot"><span><strong>Decisão:</strong> separar indexação de consultas para evitar reprocessamento.</span><span><strong>Proteção:</strong> evidência insuficiente → reconhecer limites.</span></div>
+  </div><div class="foot"><span>ChromaDB + OpenAI · Arquitetura RAG implementada em Python</span><span><b>ARQUITETURA</b> · 50 segundos</span></div>
+  <div class="speaker-notes"><strong>01:35–02:25 · Arquitetura</strong><p>Organizei a solução em dois fluxos. No processamento offline, os dados da Olist são tratados, enriquecidos e convertidos em documentos. Depois, geramos embeddings com o text-embedding-3-small e persistimos os vetores no ChromaDB. Já na consulta, a pergunta recebe a mesma representação vetorial e buscamos as avaliações semanticamente mais próximas por similaridade de cosseno, com Top-K configurável e possibilidade de filtrar entregas atrasadas. Os textos e seus metadados compõem um contexto numerado, enviado ao gpt-4.1-mini. O modelo deve responder com base nessas fontes, sem transformar uma evidência isolada em conclusão estatística ou inventar informação quando faltam dados.</p></div>
+</section>
+
+<!-- 05: 02:25-02:50 -->
+<section class="slide" data-title="Rastreabilidade" data-time="02:25–02:50">
+  <div class="brand"><svg><use href="#fiap-logo"/></svg><div class="brand-tag">Confiabilidade e rastreabilidade</div></div><div class="snum">05 / 08</div>
+  <div class="content"><div class="evidence-layout"><div>
+    <div class="eyebrow">O diferencial</div><h2>Não basta<br><span class="pink">responder bem.</span></h2>
+    <p class="lead" style="margin-top:19px">A resposta deve permitir investigar a fonte.</p>
+    <div class="trust-list">
+      <div class="trust-row"><div class="id">1</div><div><strong>Citações verificáveis</strong><span>Referências numeradas aos comentários recuperados.</span></div></div>
+      <div class="trust-row"><div class="id">2</div><div><strong>RAG Inspector</strong><span>Distância, similaridade e metadados por evidência.</span></div></div>
+      <div class="trust-row"><div class="id">3</div><div><strong>Limites explícitos</strong><span>Ausência de suporte deve ser reconhecida, não preenchida.</span></div></div>
+    </div></div>
+    <div class="soft-card inspector"><div class="inspector-head"><span>RAG Inspector <span style="color:var(--fiap)">/</span> Fontes recuperadas</span><span class="lights"><i></i><i></i><i></i></span></div>
+      <div class="evi-card"><div class="evi-row"><span class="evi-label">Evidência [1]</span><span class="tag">Registro rastreável</span></div><div class="skeleton"><i></i><i></i><i></i></div><div class="evi-metas"><div><small>Relevância</small><b>Similaridade</b></div><div><small>Avaliação</small><b>Nota / texto</b></div><div><small>Contexto</small><b>Entrega</b></div></div></div>
+      <div class="evi-card"><div class="evi-row"><span class="evi-label">Evidência [2]</span><span class="tag">Registro rastreável</span></div><div class="skeleton"><i></i><i></i><i style="width:58%"></i></div></div>
+      <div class="note">Esquema ilustrativo da estrutura de inspeção · sem valores simulados</div>
+    </div>
+  </div></div><div class="foot"><span>Observabilidade ≠ prova automática de fidelidade factual</span><span><b>EVIDÊNCIAS</b> · 25 segundos</span></div>
+  <div class="speaker-notes"><strong>02:25–02:50 · Rastreabilidade</strong><p>O grande diferencial está na rastreabilidade. Cada resposta pode apontar para avaliações recuperadas, e o RAG Inspector permite conferir o comentário original, a similaridade semântica e metadados de contexto. Isso torna a análise auditável. A observabilidade não garante, sozinha, que toda interpretação esteja correta; por isso, também construí testes e uma avaliação específica do pipeline.</p></div>
+</section>
+
+<!-- 06: 02:50-03:00 -->
+<section class="slide" data-title="Demonstração" data-time="02:50–03:00">
+  <div class="brand"><svg><use href="#fiap-logo"/></svg><div class="brand-tag">Da arquitetura à experiência</div></div><div class="snum">06 / 08</div>
+  <div class="content"><div class="transition"><div class="time-big">03:00</div><div class="eyebrow">Agora, na prática</div><h2>Vamos explorar a<br><span class="pink">voz do cliente.</span></h2><p class="lead">Chatbot Streamlit · Exploração inteligente · Evidências no RAG Inspector</p><div class="bottomstrip"><span>01 · Perguntar</span><span>02 · Investigar fontes</span><span>03 · Testar os limites</span></div></div></div>
+  <div class="foot"><span>Trocar para o Streamlit · Voltar no slide 07</span><span><b>DEMO AO VIVO</b> · 03:00–06:00</span></div>
+  <div class="speaker-notes"><strong>02:50–03:00 · Transição</strong><p>Com a arquitetura explicada, agora vou mostrar a aplicação funcionando: primeiro a consulta, depois as evidências recuperadas e, por fim, como a solução trata perguntas fora do escopo. [CORTE NO CLIPCHAMP: entrar na captura do Streamlit por três minutos.]</p></div>
+</section>
+
+<!-- 07: 06:00-06:35 -->
+<section class="slide" data-title="Validação e limites" data-time="06:00–06:35">
+  <div class="brand"><svg><use href="#fiap-logo"/></svg><div class="brand-tag">Avaliação técnica</div></div><div class="snum">07 / 08</div>
+  <div class="content">
+    <div class="eyebrow">Voltando da demonstração</div><h2>Confiabilidade exige <span class="pink">validação</span>,<br>não apenas boa redação.</h2>
+    <div class="eval-row">
+      <div class="soft-card eval-card"><div class="top">Testes de código</div><div class="v">19/19</div><div class="lbl">Testes automatizados aprovados</div><p>Regras de geração, integração com a interface e segurança de exibição.</p></div>
+      <div class="soft-card eval-card"><div class="top">Testes exploratórios</div><div class="v">6/6</div><div class="lbl">Checagens estruturais aprovadas</div><p>Validações heurísticas; não são uma métrica de fidelidade factual.</p></div>
+      <div class="soft-card eval-card caution"><div class="top">Limitações reconhecidas</div><div class="lbl" style="font-size:25px;margin-top:24px">O que ainda precisa evoluir?</div><ul><li>Revisão manual identificou ressalvas em respostas.</li><li>Precision@k e Recall@k exigem relevância rotulada.</li><li>Amostras recuperadas não medem frequência populacional.</li></ul></div>
+    </div>
+    <div class="takeaway"><strong>Decisão metodológica:</strong> explicitar as limitações é parte da qualidade da solução.</div>
+  </div><div class="foot"><span>Avaliação documentada em docs/rag_evaluation.md</span><span><b>VALIDAÇÃO</b> · 35 segundos</span></div>
+  <div class="speaker-notes"><strong>06:00–06:35 · Avaliação</strong><p>Voltando à parte técnica: a solução passou por 19 testes automatizados de código e seis checagens estruturais de cenários de uso. Mas é importante separar isso da fidelidade factual. A revisão manual também encontrou ressalvas em respostas, que orientaram refinamentos do prompt. Ainda não calculei Precision@k e Recall@k, pois isso exigiria um conjunto de relevância rotulado. E as avaliações recuperadas são evidências qualitativas, não uma estimativa da frequência de reclamações em toda a população.</p></div>
+</section>
+
+<!-- 08: 06:35-07:00 -->
+<section class="slide" data-title="Conclusão" data-time="06:35–07:00">
+  <div class="brand"><svg><use href="#fiap-logo"/></svg><div class="brand-tag">Conclusão</div></div><div class="snum">08 / 08</div>
+  <div class="content"><div class="final-layout"><div class="eyebrow">Entrega final · Tech Challenge Fase 4</div><h2>A voz do cliente,<br>agora <span class="pink">consultável e verificável</span>.</h2>
+    <div class="value-row">
+      <div class="value-card"><div class="n">01 / ACESSO</div><strong>Explorar</strong><span>Perguntas naturais sobre milhares de comentários.</span></div>
+      <div class="value-card"><div class="n">02 / CONTEXTO</div><strong>Fundamentar</strong><span>Respostas sustentadas pelas avaliações recuperadas.</span></div>
+      <div class="value-card"><div class="n">03 / GOVERNANÇA</div><strong>Auditar</strong><span>Fontes, metadados e limites transparentes.</span></div>
+    </div><div class="repository"><span class="dash"></span><span class="mono">github.com/vinicius-rio/tech-challenge-4-voice-of-customer-rag</span></div>
+  </div></div><div class="foot"><span>Fonte de dados: Olist · RAG: Lewis et al. (2020)</span><span><b>ENCERRAMENTO</b> · 25 segundos</span></div>
+  <div class="speaker-notes"><strong>06:35–07:00 · Conclusão</strong><p>Em resumo, o projeto transforma feedbacks de clientes em uma base pesquisável, com respostas contextualizadas e acesso às fontes. O ganho não é substituir a leitura humana, mas tornar a investigação mais rápida e rastreável. Código, arquitetura, testes e instruções de reprodução estão disponíveis no GitHub. Obrigado!</p></div>
+</section>
+</main></div>
+<div class="progress" id="progress"></div>
+<div class="hud" aria-label="Controles da apresentação"><button id="prev" title="Slide anterior">←</button><button id="next" title="Próximo slide">→</button><button id="notes" title="Mostrar notas (N)">Notas</button><button id="full" title="Tela cheia (F)">⛶</button><button id="helpBtn" title="Atalhos (?)">?</button></div>
+<div class="speaker-panel" id="speakerPanel"></div>
+<div class="help" id="help"><div class="help-card"><h3>Controles da apresentação</h3><p><kbd>→</kbd> <kbd>Espaço</kbd> Próximo slide</p><p><kbd>←</kbd> Slide anterior</p><p><kbd>N</kbd> Notas do apresentador</p><p><kbd>F</kbd> Tela cheia</p><p><kbd>?</kbd> Abrir / fechar ajuda</p><p>Ao terminar o slide 06, corte para o Streamlit. Ao retornar, avance para o slide 07.</p></div></div>
+<script>
+(function(){
+ const deck=document.getElementById('deck');const slides=[...deck.querySelectorAll('.slide')];const progress=document.getElementById('progress');const panel=document.getElementById('speakerPanel');const help=document.getElementById('help');let current=0;
+ function scale(){deck.style.transform=`scale(${Math.min(window.innerWidth/1600,window.innerHeight/900)})`}
+ function sync(){slides.forEach((s,i)=>s.classList.toggle('active',i===current));progress.style.width=`${100*(current+1)/slides.length}%`;if(panel.classList.contains('open'))note();document.title=`${String(current+1).padStart(2,'0')} · ${slides[current].dataset.title} | FIAP Fase 4`}
+ function note(){const n=slides[current].querySelector('.speaker-notes');panel.innerHTML=n?n.innerHTML:'Sem notas';}
+ const next=()=>{current=Math.min(current+1,slides.length-1);sync()};const prev=()=>{current=Math.max(0,current-1);sync()};
+ const toggleNotes=()=>{panel.classList.toggle('open');if(panel.classList.contains('open'))note()};const toggleFull=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};
+ document.getElementById('prev').onclick=prev;document.getElementById('next').onclick=next;document.getElementById('notes').onclick=toggleNotes;document.getElementById('full').onclick=toggleFull;document.getElementById('helpBtn').onclick=()=>help.classList.toggle('open');help.onclick=()=>help.classList.remove('open');
+ window.addEventListener('resize',scale);
+ document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();next()}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev()}else if(e.key.toLowerCase()==='n'){toggleNotes()}else if(e.key.toLowerCase()==='f'){toggleFull()}else if(e.key==='?'){help.classList.toggle('open')}else if(e.key==='Escape'){help.classList.remove('open')}});
+ scale();sync();
+})();
+</script>
+</body>
+</html>

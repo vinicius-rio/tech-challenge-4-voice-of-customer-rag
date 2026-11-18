@@ -1,0 +1,18 @@
+FIAP — Ajuste cirurgico das perguntas sugeridas (v1.8)
+
+CORRECAO
+- Recupera os textos integrais das 3 perguntas sugeridas.
+- Resolve a sobreposicao do titulo "EXPERIMENTE UMA PERGUNTA": o titulo
+  agora fica no mesmo bloco HTML das boas-vindas, permitindo ao Streamlit
+  reservar a altura correta antes de desenhar os botoes.
+- Cada botao tem espaco vertical proprio e permite a quebra de linhas.
+- Nenhum ajuste de altura/largura da shell do celular ou paineis laterais.
+
+INSTALAR (Git Bash, raiz do repositorio, branch feature/streamlit-app):
+1. Interrompa o Streamlit: Ctrl+C
+2. unzip -o ~/Downloads/fiap_perguntas_sem_sobreposicao.zip
+3. python -m unittest discover -s tests -p "test_fiap_*.py" -v
+4. python -m streamlit run app.py
+5. Atualize o navegador: Ctrl+Shift+R
+
+ARQUIVOS: app.py, assets/fiap.css, tests/test_fiap_questions.py.
