@@ -1,0 +1,5 @@
+# Dependências principais — Voice of Customer Intelligence
+chromadb==1.5.9
+openai==3.52.0
+python-dotenv==1.2.4
+streamlit==1.67.0
