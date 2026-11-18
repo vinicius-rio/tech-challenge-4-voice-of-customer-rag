@@ -1,2 +1,2 @@
-# Instale também as dependências existentes do projeto.
-streamlit>=1.51,<2.0
+# Dependências da aplicação Streamlit
+-r requirements.txt
