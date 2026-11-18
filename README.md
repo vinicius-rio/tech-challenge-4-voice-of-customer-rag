@@ -22,9 +22,12 @@ A interface **Streamlit**, com identidade visual FIAP, oferece:
 
 **Veja o Voice of Customer Intelligence em funcionamento.** O vídeo de apresentação mostrará o chatbot com identidade visual FIAP, as perguntas em linguagem natural, a recuperação semântica e o **RAG Inspector**, incluindo as avaliações utilizadas como evidências e as métricas reais de execução.
 
-> **Vídeo de demonstração (até 7 minutos):** link a ser adicionado após a publicação.
+> **Vídeo de demonstração da solução**
+
+https://github.com/user-attachments/assets/7ad887c6-c79f-4ced-8666-02c55e16be9c
 
 <!-- Após publicar o vídeo, substitua o aviso acima por:
+
 [▶ Assistir à demonstração da solução](URL_DO_VIDEO)
 
 Opcional: para usar uma miniatura clicável no GitHub, utilize:
